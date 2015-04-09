@@ -26,7 +26,7 @@ function allCurreniesGraph(json){
     
     
     var yScale = d3.scale.linear()
-        .domain([0, 100])
+        .domain([0, yMax])
         .range([height, 0]);
 
     var xScale = d3.scale.ordinal().rangePoints([margin.left, width]);
