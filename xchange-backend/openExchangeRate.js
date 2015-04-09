@@ -38,7 +38,6 @@ function fetchCurrenyNames(){
         dataType: 'jsonp',
         success: function (json) {
                 currenciesName = json;
-                log(json);
         }
     });
 }
@@ -114,11 +113,7 @@ function fetch15years(currency){
                 //only extract those on the currencies list
                 for(var i=0; i<currencies.length; i++){
                     //create a new currency object
-                    var currency = {
-                        "name": currencies[i],
-                        "rate": dataset[currencies[i]],
-                        "date": days[i]
-                    }
+                    var currency = {"name": currencies[i]};
                     yearlyRates.push(currency);
                 }
             }
@@ -235,5 +230,8 @@ $(document).ajaxComplete(function() {
         $("#loader").fadeOut(2000);
         $("#content").fadeIn(2000);
         allCurreniesGraph(latestRates);
+        log(yearlyRates);
     }
 });
+
+//function to parse the yearly rate to a format for parallel coordinates
