@@ -13,8 +13,7 @@ var currencies = [
     "GBP",
     "HKD",
     "INR",
-    "JPY",
-    "KRW",
+   
     "MXN",
     "RUB",
     "SAR",
@@ -235,5 +234,6 @@ $(document).ajaxComplete(function() {
         $("#loader").fadeOut(2000);
         $("#content").fadeIn(2000);
         allCurreniesGraph(latestRates);
+        parallel(yearlyRates);
     }
 });
