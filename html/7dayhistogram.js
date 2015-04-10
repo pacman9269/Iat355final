@@ -1,4 +1,4 @@
-var currentMoney = "CAD";
+var currentMoney = "ARS";
 
 //bargraph function
 function sevendayhistogram (json){
@@ -45,7 +45,20 @@ function sevendayhistogram (json){
         .range([height-10, 0]);
 
     var xScale = d3.scale.ordinal().rangePoints([width-margin.right, margin.left]);
-    xScale.domain(json.map(function(d){ return d.date; }));
+    
+    var la = json.map(function(d){ return d.date; })
+    la.sort(d3.descending);
+    la.forEach(function(d, i){
+        var timestamp = new Date(d*1000);
+        var year = timestamp.getFullYear();
+        var month = (month < 10 ? '' : '0') + (timestamp.getMonth()+1);
+        var day = (day < 10 ? '' : '0') +  timestamp.getDate();
+        la[i] = year + '-' + month + '-' + day;
+    });
+    
+    log(la)
+    
+    xScale.domain(la);
 
     var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
@@ -78,7 +91,7 @@ function sevendayhistogram (json){
                     return false;
                 }
             })
-            .attr("x", function(d){ return xScale(d.date) + 5;})
+            .attr("x", function(d){ return xScale(stampToString(d.date)) + 5;})
             .attr("y", function(d){ return yScale(d.rate);})
             .attr("width", 10)
             .attr("height", function(d){ return height-yScale(d.rate);});
@@ -98,4 +111,13 @@ function sevendayhistogram (json){
     bar.on("mouseout", function(d){
         tooltip.style("display", "none");
     })
+    
+    //function to parse timestamp to readable dates
+    function stampToString(stamp){
+        var timestamp = new Date(stamp*1000);
+        var year = timestamp.getFullYear();
+        var month = (month < 10 ? '' : '0') + (timestamp.getMonth()+1);
+        var day = (day < 10 ? '' : '0') +  timestamp.getDate();
+        return(year + '-' + month + '-' + day);
+    }
 }

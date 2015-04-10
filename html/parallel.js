@@ -93,7 +93,7 @@ function parallel(data){
                 var scale = d3.scale.ordinal().rangePoints([0, h])
                 scale.domain(data.map(function(d){ return d.Currency; }));
                 var mappedValue = scale(d[p]);
-                log(mappedValue);
+                //log(mappedValue);
                 return extents[i][0] <= mappedValue && mappedValue <= extents[i][1];
             }
             // it's a string

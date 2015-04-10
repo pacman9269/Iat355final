@@ -17,35 +17,52 @@
         <h3>Super Duper Currencies Loader</h3>
         <img id="load-graphic" src="../ajax-loader.gif"/>
             <ul>
-                <li id="yearly"></li>
-                <li id="weekly"></li>
-                <li id="latest"></li>
+                <li id="yearly">yearly rates...0%</li>
+                <li id="weekly">weekly rates...0%</li>
+                <li id="latest">latest rates...0%</li>
             </ul>
     </div>
     <div id="content" class="hidden container">
+<!--
         <section id="intro">
             <h1>Currencies Visualizations!</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta molestie magna, eget interdum erat aliquet at. Aenean molestie sit amet turpis id placerat. Sed a ex rutrum, eleifend arcu nec, bibendum nisl. Vivamus vitae vestibulum justo. Donec bibendum nec nisi eu pulvinar. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce rutrum dictum iaculis. Cras ultricies at orci vel varius. Nullam mauris sapien, suscipit a elit sit amet, eleifend feugiat purus. In condimentum libero at vehicula gravida. Nunc ut eros feugiat dui viverra euismod. Aliquam ac accumsan diam. </p>
         </section>
+-->
         <section id="allCurrenies">
-            <hr>
             <h2>Current Exchange Rates</h2>
+            <p>Below shows up-to-date currency exchange rates, in respects to the USD. You can hover over the bar to toggle tooltips for more details. The blue line below is the reference line ($1 USD)</p>
         </section>
         <section id="sevendays">
             <hr>
             <h2>Exchange Rates (Past 7 days)</h2>
-            <select id="currencySelect">
+            <p>Below shows currency exchange rates in the past 7 days, in respects to the USD. You can use the dropdown list to switch between currencies.</p>
+            <div id="control">
+                Display Currency:
+                <select id="currencySelect">
                 <option value="ARS" id="ARS">ARS</option>
                 <option value="AUD" id="AUD">AUD</option>
                 <option value="BRL" id="BRL">BRL</option>
                 <option value="CAD" id="CAD">CAD</option>
                 <option value="CNY" id="CNY">CNY</option>
                 <option value="EUR" id="EUR">EUR</option>
+                <option value="GBP" id="GBP">GBP</option>
+                <option value="HKD" id="HKD">HKD</option>
+                <option value="INR" id="INR">INR</option>
+                <option value="MXN" id="MXN">MXN</option>
+                <option value="RUB" id="RUB">RUB</option>
+                <option value="SAR" id="SAR">SAR</option>
+                <option value="TRY" id="TRY">TRY</option>
+                <option value="TWD" id="TWD">TWD</option>
+                <option value="USD" id="USD">USD</option>
+                <option value="ZAR" id="ZAR">ZAR</option>
             </select>
+            </div>
         </section>
         <section id="fifteenyears">
             <hr>
             <h2>Exchange Rates (Past 15 Years)</h2>
+            <p>Below shows currency exchange rates in past 15 years, in respects to the USD. You can brush the axis to isolate lines. Brush the currency symbols to isolate only certain currencies.</p>
         </section>
         <section id="footer">
             <hr>

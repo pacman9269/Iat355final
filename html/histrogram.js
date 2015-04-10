@@ -52,7 +52,7 @@ function allCurreniesGraph(json){
         .attr("y2", yScale(1))
         .style("stroke", "blue");
     
-    log(json);
+    //log(json);
     
     var bar = svg.selectAll("rect")
             .data(json)
