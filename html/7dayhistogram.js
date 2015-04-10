@@ -1,8 +1,11 @@
-////bargraph function
+var currentMoney = "CAD";
+
+//bargraph function
 function sevendayhistogram (json){
+    
     //global svg
     var margin = {top:30, right:30, bottom:30, left:30},
-        width = 800 - margin.left - margin.right,
+        width = 1000 - margin.left - margin.right,
         height = 700 - margin.top - margin.bottom;
 
     var svg = d3.select("#sevendays").append("svg")
@@ -25,13 +28,23 @@ function sevendayhistogram (json){
     //axis and scales
     var yMax;
     yMax = d3.max(json, function(d){ return d.rate;});
+    curYmax = d3.max(json, function(d){
+        if(d.name == currentMoney){
+            return d.rate;
+        }
+    });
+    curYmin = d3.min(json, function(d){
+        if(d.name == currentMoney){
+            return d.rate;
+        }
+    });
     
     
     var yScale = d3.scale.linear()
-        .domain([0, yMax])
-        .range([height, 0]);
+        .domain([curYmin, curYmax])
+        .range([height-10, 0]);
 
-    var xScale = d3.scale.ordinal().rangePoints([margin.left, width]);
+    var xScale = d3.scale.ordinal().rangePoints([width-margin.right, margin.left]);
     xScale.domain(json.map(function(d){ return d.date; }));
 
     var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
@@ -54,13 +67,18 @@ function sevendayhistogram (json){
         .attr("y2", yScale(1))
         .style("stroke", "blue");
     
-    log(json);
-    
     var bar = svg.selectAll("rect")
             .data(json)
             .enter()
             .append("rect")
-            .attr("x", function(d){ return xScale(d.name) + 5;})
+            .filter(function(d){
+                if(d.name == currentMoney){
+                    return true;
+                }else{
+                    return false;
+                }
+            })
+            .attr("x", function(d){ return xScale(d.date) + 5;})
             .attr("y", function(d){ return yScale(d.rate);})
             .attr("width", 10)
             .attr("height", function(d){ return height-yScale(d.rate);});

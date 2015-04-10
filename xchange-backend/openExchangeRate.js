@@ -168,14 +168,21 @@ function fetch7days(currencies){
 
                 var dataset = json.rates;
                 
+                var timestamp = new Date(json.timestamp*1000);
+                var year = timestamp.getFullYear();
+                var month = (month < 10 ? '' : '0') + (timestamp.getMonth()+1);
+                var day = (day < 10 ? '' : '0') +  timestamp.getDate();
+                var timestamp = year + '-' + month + '-' + day;
+                
                 //only extract those on the currencies list
                 for(var i=0; i<currencies.length; i++){
                     //create a new currency object
                     var currency = {
                         "name": currencies[i],
                         "rate": dataset[currencies[i]],
-                        "date": days[i]
+                        "date": timestamp
                     }
+                    log(currency);
                     weeklyRates.push(currency);
                 }
             }
@@ -202,6 +209,13 @@ function log(s){
     console.log(s);
 }
 
+function refresh(){
+    d3.select("#sevendays").select("svg").remove();
+    log("run!");
+    log(currentMoney);
+    sevendayhistogram(weeklyRates);
+}
+
 //fetch data at start
 window.onload = function(){
     //methods to fetch data
@@ -209,6 +223,15 @@ window.onload = function(){
     fetch15years(currencies);
     fetch7days(currencies);
     fetchLatest(currencies);
+    
+    //adding listeners to the currency selector
+    var currencyList = document.getElementById("currencySelect");
+    
+    currencyList.onchange = function(){
+        log(this.value);
+        currentMoney = this.value;
+        refresh();
+    }
 }
 
 $(document).ajaxComplete(function() {
@@ -243,7 +266,7 @@ $(document).ajaxComplete(function() {
         $("#content").fadeIn(2000);
         allCurreniesGraph(latestRates);
         parallel(yearlyRates);
+        sevendayhistogram(weeklyRates);
     }
 });
 
-//function to parse the yearly rate to a format for parallel coordinates
