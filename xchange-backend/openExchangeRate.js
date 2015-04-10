@@ -14,7 +14,6 @@ var currencies = [
     "GBP",
     "HKD",
     "INR",
-   
     "MXN",
     "RUB",
     "SAR",

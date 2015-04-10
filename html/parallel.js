@@ -1,6 +1,6 @@
 function parallel(data){
     var w = 1600;
-    var h = 600;
+    var h = 700;
     var margin = {
         top: 30,
         right: 10,
