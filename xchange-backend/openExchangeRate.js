@@ -1,6 +1,7 @@
 ////set up global variables to store the data
 var latestRates, weeklyRates, yearlyRates, currenciesName = [];
 var yearlyLoaded, weeklyLoaded, latestLoaded = false;
+yearlyLoaded = true;
 
 //the array of currenies
 var currencies = [
@@ -37,7 +38,6 @@ function fetchCurrenyNames(){
         dataType: 'jsonp',
         success: function (json) {
                 currenciesName = json;
-                log(json);
         }
     });
 }
@@ -46,7 +46,7 @@ function fetchLatest(currencies){
     //empty out the array
     latestRates = [];
 
-    if(month < 10){ month = "0"+d.getMonth();}
+    if(month < 10){ month = "0"+d.getMonth()+1;}
     if(day < 10){ day = "0"+d.getDate();}
     var date = year+'-'+month+'-'+day;
     
@@ -89,13 +89,24 @@ function fetch15years(currency){
     //generate dates for past week
     for(var i=0; i<15; i++){
         var newyear = year - i;
-        if(month < 10){ month = "0"+d.getMonth();}
+        if(month < 10){ month = "0"+(d.getMonth()+1);}
         if(day < 10){ day = "0"+d.getDate();}
         var date = newyear+'-'+month+'-'+day;
         days.push(date);
     }
     
     yearlyRates = [];
+    
+    //for every currency = make a new currency object
+    for(var c=0; c<currencies.length; c++){
+        var currency = {"Currency": currencies[c]};
+        for(var d=days.length-1; d>0; d--){
+            currency[days[d]] = "1";
+        }
+        yearlyRates.push(currency);
+        //log(currenciesHolder);
+    }
+    
     //for every year, search for currency
     for(var i=0; i<days.length; i++){
         //use jQuery.ajax tp get the latest exchange rates, with JSONP:
@@ -109,16 +120,14 @@ function fetch15years(currency){
 
                 var dataset = json.rates;
                 var base = json.base;
-
-                //only extract those on the currencies list
-                for(var i=0; i<currencies.length; i++){
-                    //create a new currency object
-                    var currency = {
-                        "name": currencies[i],
-                        "rate": dataset[currencies[i]],
-                        "date": days[i]
-                    }
-                    yearlyRates.push(currency);
+                var timestamp = new Date(json.timestamp*1000);
+                var year = timestamp.getFullYear();
+                var month = (month < 10 ? '' : '0') + (timestamp.getMonth()+1);
+                var day = (day < 10 ? '' : '0') +  timestamp.getDate();
+                var timestamp = year + '-' + month + '-' + day;
+                
+                for(var j=0; j<currencies.length; j++){
+                    yearlyRates[j][timestamp] = dataset[currencies[j]];
                 }
             }
         });
@@ -138,7 +147,7 @@ function fetch7days(currencies){
     //generate dates for past week
     for(var i=0; i<7; i++){
         var newday = day - i;
-        if(month < 10){ month = "0"+d.getMonth();}
+        if(month < 10){ month = "0"+(d.getMonth()+1);}
         if(newday < 10){ newday = "0"+newday;}
         var date = year+'-'+month+'-'+newday;
         days.push(date);
@@ -218,12 +227,11 @@ $(document).ajaxComplete(function() {
         weeklyLoaded = true;
         //log(weeklyRates);
     }
-    if(yearlyRates.length < (currencies.length*15)){
-        $("#yearly").text("yearly rates - " + Math.round(yearlyRates.length / (currencies.length*15) * 100) + "%");
+    if(yearlyRates.length < currencies.length){
+        $("#yearly").text("yearly rates - " + Math.round(yearlyRates.length / (currencies.length) * 100) + "%");
     }else{
         $("#yearly").text("yearly rates loaded");
         yearlyLoaded = true;
-        //log(yearlyRates);
     }
     //check if all loaded
     if(yearlyLoaded && weeklyLoaded && latestLoaded){
@@ -237,3 +245,5 @@ $(document).ajaxComplete(function() {
         parallel(yearlyRates);
     }
 });
+
+//function to parse the yearly rate to a format for parallel coordinates

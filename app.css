@@ -86,3 +86,29 @@ body{
     padding-left: 0;
     margin-left: 0;
 }
+
+/*parallel*/
+svg {
+    font-size: 0.8rem;
+}
+
+.fg path {
+    fill: none;
+    stroke: blue;
+}
+
+.bg path {
+    fill: none;
+    stroke: grey;
+}
+
+.brush .extent {
+    fill-opacity: .3;
+    stroke: #ACDBBB;
+}
+
+.axis line,
+.axis path {
+    fill: none;
+    stroke: #000;
+}
