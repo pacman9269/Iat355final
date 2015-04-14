@@ -51,8 +51,8 @@ function sevendayhistogram (json){
     la.forEach(function(d, i){
         var timestamp = new Date(d*1000);
         var year = timestamp.getFullYear();
-        var month = (month < 10 ? '' : '0') + (timestamp.getMonth()+1);
-        var day = (day < 10 ? '' : '0') +  timestamp.getDate();
+        var month = timestamp.getMonth()+1;
+        var day = timestamp.getDate();
         la[i] = year + '-' + month + '-' + day;
     });
     
@@ -116,8 +116,8 @@ function sevendayhistogram (json){
     function stampToString(stamp){
         var timestamp = new Date(stamp*1000);
         var year = timestamp.getFullYear();
-        var month = (month < 10 ? '' : '0') + (timestamp.getMonth()+1);
-        var day = (day < 10 ? '' : '0') +  timestamp.getDate();
+        var month = timestamp.getMonth()+1;
+        var day = timestamp.getDate();
         return(year + '-' + month + '-' + day);
     }
 }

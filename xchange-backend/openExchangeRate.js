@@ -78,7 +78,7 @@ function fetchLatest(currencies){
 //fetch past 15 years data
 function fetch15years(currency){
     //get the dates
-    var days = [];
+    var days = new Array();
     //figure out the current day
     var d = new Date();
     var year = d.getFullYear();
@@ -94,13 +94,13 @@ function fetch15years(currency){
         days.push(date);
     }
     
-    yearlyRates = [];
+    yearlyRates = new Array();
     
     //for every currency = make a new currency object
     for(var c=0; c<currencies.length; c++){
         var currency = {"Currency": currencies[c]};
         for(var d=days.length-1; d>0; d--){
-            currency[days[d]] = "1";
+            currency[days[d]] = 0;
         }
         yearlyRates.push(currency);
         //log(currenciesHolder);
@@ -121,8 +121,10 @@ function fetch15years(currency){
                 var base = json.base;
                 var timestamp = new Date(json.timestamp*1000);
                 var year = timestamp.getFullYear();
-                var month = (month < 10 ? '' : '0') + (timestamp.getMonth()+1);
-                var day = (day < 10 ? '' : '0') +  timestamp.getDate();
+                var month = timestamp.getMonth()+1;
+                var day = timestamp.getDate();
+                if(month < 10){ month = "0"+month;}
+                if(day < 10){ day = "0"+day;}
                 var timestamp = year + '-' + month + '-' + day;
                 
                 for(var j=0; j<currencies.length; j++){
@@ -152,6 +154,8 @@ function fetch7days(currencies){
         var date = year+'-'+month+'-'+newday;
         days.push(date);
     }
+    
+    //log(days);
     
     weeklyRates = [];
     

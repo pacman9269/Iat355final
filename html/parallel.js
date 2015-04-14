@@ -1,4 +1,7 @@
 function parallel(data){
+    
+    log(data);
+    
     var w = 1600;
     var h = 700;
     var margin = {
@@ -31,7 +34,8 @@ function parallel(data){
         }
         else{
         	y[d] = d3.scale.ordinal().rangePoints([0, h])
-            y[d].domain(data.map(function(d){ return d.Currency; }));
+            var ha = data.map(function(d){ return d.Currency; });
+            y[d].domain(ha);
         	return true;
         }
       }));
